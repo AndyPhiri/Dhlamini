@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Manage Notices</title>
+  <style>
+    /* Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+      transition: background 0.5s ease, color 0.5s ease;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(-45deg, #ff3333, #003366, #004c99, #ffffff);
+      background-size: 400% 400%;
+      animation: gradientBG 12s ease infinite;
+      color: #111;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Animated background */
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(8px);
+      color: #003366;
+      text-align: center;
+      padding: 20px 10px 10px;
+      position: relative;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    header .logo {
+      position: absolute;
+      top: 10px;
+      left: 20px;
+    }
+
+    header .logo img {
+      height: 60px;
+      width: auto;
+      border-radius: 8px;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    nav {
+      margin-top: 10px;
+    }
+
+    nav a {
+      color: #003366;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+      padding: 8px 15px;
+      border-radius: 5px;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: #ff3333;
+      color: white;
+    }
+
+    /* Dark Mode Toggle Button */
+    .toggle-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #003366;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .toggle-btn:hover {
+      background: #ff3333;
+    }
+
+    /* Main Content */
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 20px;
+    }
+
+    .notice-board {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 40px;
+      border-radius: 15px;
+      max-width: 1000px;
+      width: 100%;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+    }
+
+    .notice-board h2 {
+      color: #003366;
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+
+    form input, form button {
+      padding: 10px 15px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    form input {
+      flex: 1 1 200px;
+    }
+
+    form button {
+      background: #003366;
+      color: white;
+      cursor: pointer;
+      border: none;
+      flex: 1 1 150px;
+      transition: background 0.3s ease;
+    }
+
+    form button:hover {
+      background: #ff3333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background: #003366;
+      color: white;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+
+    tr:hover {
+      background: #e6f0ff;
+    }
+
+    td button {
+      background: #ff3333;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    td button:hover {
+      background: #003366;
+    }
+
+    footer {
+      background: rgba(255, 51, 51, 0.9);
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: auto;
+      font-size: 0.9rem;
+    }
+
+    /* Dark Mode */
+    body.dark {
+      background: linear-gradient(-45deg, #001a33, #002b4d, #330000, #000000);
+      background-size: 400% 400%;
+      color: #f5f5f5;
+      animation: gradientBG 12s ease infinite;
+    }
+
+    body.dark header {
+      background: rgba(0, 0, 30, 0.8);
+      color: #fff;
+    }
+
+    body.dark nav a {
+      color: #fff;
+    }
+
+    body.dark nav a:hover {
+      background: #004c99;
+      color: #fff;
+    }
+
+    body.dark .notice-board {
+      background: rgba(0, 0, 30, 0.8);
+    }
+
+    body.dark th {
+      background: #004c99;
+    }
+
+    body.dark tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    body.dark tr:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    body.dark td button {
+      background: #004c99;
+    }
+
+    body.dark td button:hover {
+      background: #ff3333;
+    }
+
+    body.dark footer {
+      background: #001a33;
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 1.4rem;
+      }
+
+      nav a {
+        display: inline-block;
+        margin: 5px 8px;
+      }
+
+      .toggle-btn {
+        top: 15px;
+        right: 15px;
+      }
+
+      form {
+        flex-direction: column;
+      }
+
+      form input, form button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <!-- Replace with your logo -->
+      <img src="logo.png" alt="Logo">
+    </div>
+    <h1>Admin Panel</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="applications.html">Applications</a>
+      <a href="noticeboard.html">Notice Board</a>
+      <a href="admin.html">Admin</a>
+    </nav>
+    <button class="toggle-btn" onclick="toggleDarkMode()">Dark Mode</button>
+  </header>
+
+  <main>
+    <section class="notice-board">
+      <h2>Manage Notice Board</h2>
+      <form id="noticeForm">
+        <input type="text" id="institution" placeholder="Institution Name" required>
+        <input type="text" id="fee" placeholder="Application Fee" required>
+        <input type="date" id="openDate" required>
+        <input type="date" id="closeDate" required>
+        <button type="submit">Add Notice</button>
+      </form>
+
+      <table>
+        <thead>
+          <tr>
+            <th onclick="sortTable('institution')">Institution Name ⬍</th>
+            <th onclick="sortTable('fee')">Application Fee ⬍</th>
+            <th onclick="sortTable('openDate')">Opening Date ⬍</th>
+            <th onclick="sortTable('closeDate')">Closing Date ⬍</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="noticeTable"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Dhlamini's Varsity & College Applications</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark");
+      const btn = document.querySelector(".toggle-btn");
+      btn.textContent = document.body.classList.contains("dark") ? "Light Mode" : "Dark Mode";
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadNotices(true); // Admin mode
+      enableNoticeForm();
+    });
+  </script>
+</body>
+</html>

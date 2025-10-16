@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Applications - Dhlamini's Varsity</title>
+  <style>
+    /* Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+      transition: background 0.5s ease, color 0.5s ease;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(-45deg, #ff3333, #003366, #004c99, #ffffff);
+      background-size: 400% 400%;
+      animation: gradientBG 12s ease infinite;
+      color: #111;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Background animation */
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(8px);
+      color: #003366;
+      text-align: center;
+      padding: 20px 10px 10px;
+      position: relative;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    header .logo {
+      position: absolute;
+      top: 10px;
+      left: 20px;
+    }
+
+    header .logo img {
+      height: 60px;
+      width: auto;
+      border-radius: 8px;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    nav {
+      margin-top: 10px;
+    }
+
+    nav a {
+      color: #003366;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+      padding: 8px 15px;
+      border-radius: 5px;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: #ff3333;
+      color: white;
+    }
+
+    /* Dark Mode Toggle Button */
+    .toggle-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #003366;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .toggle-btn:hover {
+      background: #ff3333;
+    }
+
+    /* Main Section */
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    section {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 40px;
+      border-radius: 15px;
+      max-width: 900px;
+      width: 100%;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+      text-align: center;
+    }
+
+    section h2 {
+      color: #003366;
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    section p {
+      font-size: 1.1rem;
+      color: #222;
+      margin-bottom: 15px;
+    }
+
+    ul {
+      list-style: none;
+      text-align: left;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    ul li {
+      background: #e6f0ff;
+      padding: 12px 15px;
+      margin-bottom: 10px;
+      border-left: 5px solid #003366;
+      border-radius: 8px;
+      color: #111;
+      font-size: 1rem;
+    }
+
+    footer {
+      background: rgba(255, 51, 51, 0.9);
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: auto;
+      font-size: 0.9rem;
+    }
+
+    /* Dark Mode Styles */
+    body.dark {
+      background: linear-gradient(-45deg, #001a33, #002b4d, #330000, #000000);
+      background-size: 400% 400%;
+      color: #f5f5f5;
+      animation: gradientBG 12s ease infinite;
+    }
+
+    body.dark header {
+      background: rgba(0, 0, 30, 0.8);
+      color: #fff;
+    }
+
+    body.dark nav a {
+      color: #fff;
+    }
+
+    body.dark nav a:hover {
+      background: #004c99;
+      color: #fff;
+    }
+
+    body.dark section {
+      background: rgba(0, 0, 30, 0.7);
+      color: #f0f0f0;
+    }
+
+    body.dark section h2 {
+      color: #66aaff;
+    }
+
+    body.dark ul li {
+      background: rgba(255, 255, 255, 0.1);
+      border-left: 5px solid #66aaff;
+      color: #f5f5f5;
+    }
+
+    body.dark footer {
+      background: #001a33;
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 1.4rem;
+      }
+      nav a {
+        display: inline-block;
+        margin: 5px 8px;
+      }
+      .toggle-btn {
+        top: 15px;
+        right: 15px;
+      }
+      section {
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <!-- Replace with your logo -->
+      <img src="logo.png" alt="Logo">
+    </div>
+    <h1>Applications</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="applications.html">Applications</a>
+      <a href="noticeboard.html">Notice Board</a>
+      <a href="admin.html">Admin</a>
+    </nav>
+    <button class="toggle-btn" onclick="toggleDarkMode()">Dark Mode</button>
+  </header>
+
+  <main>
+    <section>
+      <h2>How to Apply</h2>
+      <p>Follow these steps to apply for your dream university or college:</p>
+      <ul>
+        <li>Register an account</li>
+        <li>Fill in your personal and academic details</li>
+        <li>Upload required documents</li>
+        <li>Submit your application</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Dhlamini's Varsity & College Applications</p>
+  </footer>
+
+  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark");
+      const btn = document.querySelector(".toggle-btn");
+      btn.textContent = document.body.classList.contains("dark") ? "Light Mode" : "Dark Mode";
+    }
+  </script>
+</body>
+</html>

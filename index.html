@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notice Board - Dhlamini's Varsity</title>
+  <style>
+    /* === SLIDESHOW BACKGROUND LAYER === */
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .bg-slideshow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    .bg-slideshow img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: auto;
+      height: 100%;
+      min-width: 100%;
+      min-height: 100%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+    }
+    .bg-slideshow img.active {
+      opacity: 1;
+    }
+
+    /* === OVERLAY & GRADIENT + THEME COLORS === */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.6); /* for light mode */
+      mix-blend-mode: multiply; /* or overlay */
+      z-index: -0.5;
+      transition: background 0.5s;
+    }
+
+    body.dark-mode .overlay {
+      background: rgba(20,20,20, 0.7);
+    }
+
+    /* === PAGE LAYOUT === */
+    header {
+      position: relative;
+      background-color: rgba(255,255,255,0.85);
+      color: #1e3a8a;
+      padding: 1rem;
+      text-align: center;
+      border-bottom: 4px solid #dc2626;
+    }
+    header img {
+      height: 60px;
+      position: absolute;
+      top: 10px;
+      left: 20px;
+    }
+    nav a {
+      color: #1e3a8a;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: #dc2626;
+    }
+
+    main {
+      position: relative;
+      margin: 2rem auto;
+      width: 85%;
+      background: rgba(255,255,255,0.9);
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      transition: background 0.5s;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background-color: #1e3a8a;
+      color: white;
+      cursor: pointer;
+    }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    tr:hover {
+      background-color: rgba(220,38,38,0.1);
+    }
+
+    footer {
+      background-color: rgba(255,255,255,0.85);
+      color: #1e3a8a;
+      text-align: center;
+      padding: 1rem;
+      border-top: 4px solid #dc2626;
+      transition: background 0.5s;
+    }
+
+    /* Dark mode overrides */
+    body.dark-mode header,
+    body.dark-mode main,
+    body.dark-mode footer {
+      background-color: rgba(20,20,20,0.85);
+      color: #f0f0f0;
+    }
+    body.dark-mode th {
+      background-color: #dc2626;
+    }
+    body.dark-mode nav a {
+      color: #f0f0f0;
+    }
+    body.dark-mode nav a:hover {
+      color: #1e3a8a;
+    }
+
+    /* Dark Mode Toggle Button */
+    #darkModeToggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #1e3a8a;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+      z-index: 10;
+      font-weight: bold;
+    }
+    #darkModeToggle:hover {
+      background: #dc2626;
+    }
+  </style>
+</head>
+<body>
+  <!-- Background slideshow container -->
+  <div class="bg-slideshow">
+    <img src="grad1.jpg" class="active" alt="">
+    <img src="grad2.jpg" alt="">
+    <img src="grad3.jpg" alt="">
+    <img src="grad4.jpg" alt="">
+  </div>
+  <div class="overlay"></div>
+
+  <header>
+    <img src="logo.png" alt="Logo">
+    <h1>Notice Board</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="applications.html">Applications</a>
+      <a href="noticeboard.html">Notice Board</a>
+      <a href="admin.html">Admin</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="notice-board">
+      <h2>Important Notices</h2>
+      <table>
+        <thead>
+          <tr>
+            <th onclick="sortTable('institution')">Institution Name ⬍</th>
+            <th onclick="sortTable('fee')">Application Fee ⬍</th>
+            <th onclick="sortTable('openDate')">Opening Date ⬍</th>
+            <th onclick="sortTable('closeDate')">Closing Date ⬍</th>
+          </tr>
+        </thead>
+        <tbody id="noticeTable"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Dhlamini's Varsity & College Applications</p>
+  </footer>
+
+  <button id="darkModeToggle">🌙 Dark Mode</button>
+
+  <script src="script.js"></script>
+  <script>
+    // Slideshow logic
+    const slides = document.querySelectorAll('.bg-slideshow img');
+    let current = 0;
+    function nextSlide() {
+      slides[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+    }
+    setInterval(nextSlide, 7000); // change every 7 seconds
+
+    // Dark mode toggle
+    const toggleBtn = document.getElementById('darkModeToggle');
+    toggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      toggleBtn.textContent = document.body.classList.contains('dark-mode')
+        ? '☀️ Light Mode'
+        : '🌙 Dark Mode';
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadNotices(false); // read-only mode
+    });
+  </script>
+</body>
+</html>
